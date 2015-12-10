@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+var maker = require('climaker');
+var path = require('path');
+var packageInfo = require('../package.json');
+
+maker('%BINARY_NAME%', packageInfo.version, path.join(__dirname, '../commands/%BINARY_NAME%'));

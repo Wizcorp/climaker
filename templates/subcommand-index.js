@@ -1,0 +1,4 @@
+exports.description = {
+	en: '',
+	// ja: ''
+};

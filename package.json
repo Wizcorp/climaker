@@ -1,0 +1,33 @@
+{
+  "name": "climaker",
+  "version": "0.0.1",
+  "description": "Tool to create CLI interfaces.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "climaker",
+    "cli",
+    "tools",
+    "yargs",
+    "yargonaut",
+    "colors"
+  ],
+  "author": "Marc Trudel <mtrudel@wizcorp.jp>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^1.5.0",
+    "chalk": "^1.1.1",
+    "did-you-mean": "0.0.1",
+    "jp-wrap": "^0.2.1",
+    "npm": "^3.5.1",
+    "string-width": "^1.0.1",
+    "wordwrap": "^1.0.0",
+    "yargonaut": "^1.1.2",
+    "yargs": "^3.31.0"
+  },
+  "bin": {
+    "climaker": "./bin/climaker"
+  }
+}
