@@ -383,10 +383,6 @@ function load(commandFragments, commandPath, yargs) {
 					console.log(lines.length && (pos !== command.params.length - 1 || hasUnnamedParams));
 
 					if (pos !== command.params.length - 1 || hasUnnamedParams) {
-						if (lines.length > 1) {
-							description += '\n';
-						}
-
 						description += '\n';
 					}
 				});
