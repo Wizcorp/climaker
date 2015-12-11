@@ -1,5 +1,7 @@
 {
   "Parameters": "Parametreler",
+  "Command not found": "Komut bulunamadı",
+  "Did you mean": "Demek istediğin",
   "required": "zorunlu",
   "optional": "isteğe bağlı"
 }

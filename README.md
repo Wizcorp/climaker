@@ -15,10 +15,13 @@ consistent CLI UI tools in Node.js, with great speed.
 
 - [ ] Documentation in Japanese, French, and other languages
 - [ ] Autocompletion script generation for Bash, ZSH and PowerShell
+- [ ] `autocomplete` attribute on options and parameters (specify a command
+      that should return autocompletion data)
 - [ ] Test suite
 - [ ] Specification document (for writing commands)
 - [ ] Health-check command: check that this project's binaries
-      and commands are complying with how things are supposed to be structured
+      and commands are complying with how things are
+	  supposed to be structured
 - [ ] Get feedback!
 
 ## How to use
@@ -29,18 +32,18 @@ The following commands will help you get set up:
 npm install -i climaker
 
 # Create a project with a single binary
-climaker create rage-myCommand
+climaker create myCommand
 
 # Add commands to the binary
 climaker command create newCommand
 climaker command create new subCommand
 
 # Add a second binary
-climaker binary create rage-mySecondCommand
+climaker binary create mySecondCommand
 
 # Add commands to the second binary
-climaker command create --binary rage-mySecondCommand create newCommand
-climaker command create --binary rage-mySecondCommand create new subCommand
+climaker command create --binary mySecondCommand create newCommand
+climaker command create --binary mySecondCommand create new subCommand
 ```
 
 ## Manually creating commands

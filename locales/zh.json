@@ -1,5 +1,7 @@
 {
   "Parameters": "参数",
+  "Command not found": "命令未找到",
+  "Did you mean": "你的意思是",
   "required": "required",
   "optional": "optional"
 }

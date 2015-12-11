@@ -1,5 +1,7 @@
 {
   "Parameters": "parametry",
+  "Command not found": "Nie znaleziono polecenia",
+  "Did you mean": "Miałeś na myśli",
   "required": "wymagany",
   "optional": "fakultatywny"
 }

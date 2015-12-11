@@ -1,5 +1,7 @@
 {
   "Parameters": "parametre",
+  "Command not found": "Kommando ikke fundet",
+  "Did you mean": "Mente du",
   "required": "obligatorisk",
   "optional": "valgfri"
 }

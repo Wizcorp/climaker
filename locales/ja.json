@@ -1,5 +1,7 @@
 {
   "Parameters": "パラメータ",
+  "Command not found": "コマンドが見つかりません",
+  "Did you mean": "もしかして",
   "required": "必須",
   "optional": "オプショナル"
 }

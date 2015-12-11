@@ -27,6 +27,23 @@ function logVerbose () {
 	}
 }
 
+var dict = {
+};
+
+function getFromDictionary(key) {
+	var locale = yargs.locale();
+
+	if (!dict[locale]) {
+		try {
+			dict[locale] = require('./locales/' + locale + '.json');
+		} catch (error) {
+			dict[locale] = require('./locales/en.json');
+		}
+	}
+
+	return dict[locale][key] || key;
+}
+
 function suggest(argv) {
 	var solutions = [];
 
@@ -53,10 +70,11 @@ function suggest(argv) {
 
 	if (solutions.length > 0) {
 		console.error('');
-		console.error('Did you mean:');
+		console.error(chalk.cyan(getFromDictionary('Did you mean') + ':'));
 		solutions.forEach(function (solution) {
 			console.error(' ', solution);
 		});
+		console.error('');
 	}
 }
 
@@ -69,13 +87,31 @@ function showCommandNotFound(yargs, commandFragments) {
 
 	hasBeenShown = true;
 
+	var areEqual = true;
+	var yargsArgv = yargs.argv._;
+	yargsArgv.unshift(commandFragments[0]);
+
+	if (yargsArgv.length !== commandFragments.length) {
+		areEqual = false;
+	} else {
+		for (var pos = 0; pos < yargsArgv.length; pos += 1) {
+			if (commandFragments[pos] !== yargsArgv[pos]) {
+				areEqual = false;
+				break;
+			}
+		}
+	}
+
 	var argv = process.argv.slice(0);
 	argv.shift();
 	argv.shift();
 	argv.unshift(commandFragments[0]);
 
 	yargs.showHelp();
-	console.error(chalk.red('Command not found:', argv.join(' ')));
+
+	if (!areEqual) {
+		console.error(chalk.red(getFromDictionary('Command not found') + ':', argv.join(' ')));
+	}
 	suggest(argv);
 }
 
@@ -83,29 +119,12 @@ function onCompleted(error, exitCode) {
 	exitCode = exitCode || error ? 1 : 0;
 
 	if (error) {
-		console.error('Error:', error.message || error);
+		console.error(chalk.red('Error:', error.message || error));
 		logVerbose('Error stack:');
 		logVerbose(error.stack);
 	}
 
 	process.exit(exitCode);
-}
-
-var dict = {
-};
-
-function getFromDictionary(key) {
-	var locale = yargs.locale();
-
-	if (!dict[locale]) {
-		try {
-			dict[locale] = require('./locales/' + locale + '.json');
-		} catch (error) {
-			dict[locale] = require('./locales/en.json');
-		}
-	}
-
-	return dict[locale][key] || key;
 }
 
 function formatParamInfo(param, isRequired, maxWidth) {
@@ -414,8 +433,7 @@ function load(commandFragments, commandPath, yargs) {
 				var args = formatArgv(yargs.argv, localCommandFragments, command);
 			} catch (error) {
 				yargs.showHelp();
-				console.error(chalk.red(error.message));
-				onCompleted(null, 1);
+				onCompleted(error, 1);
 			}
 
 			try {

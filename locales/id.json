@@ -1,5 +1,7 @@
 {
   "Parameters": "parameter",
+  "Command not found": "Perintah tidak ditemukan",
+  "Did you mean": "Apakah yang kamu maksud",
   "required": "diperlukan",
   "optional": "opsional"
 }

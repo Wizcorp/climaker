@@ -1,5 +1,7 @@
 {
   "Parameters": "매개 변수",
+  "Command not found": "명령을 찾을 수 없습니다",
+  "Did you mean": "이것을 찾으 셨나요?",
   "required": "필수",
   "optional": "선택 과목"
 }

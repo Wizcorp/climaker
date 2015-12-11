@@ -1,5 +1,7 @@
 {
   "Parameters": "Parameters",
+  "Command not found": "Command not found",
+  "Did you mean": "Did you mean",
   "required": "required",
   "optional": "optional"
 }
