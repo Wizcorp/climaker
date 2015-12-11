@@ -119,7 +119,7 @@ function onCompleted(error, exitCode) {
 	exitCode = exitCode || error ? 1 : 0;
 
 	if (error) {
-		console.error(chalk.red('Error:', error.message || error));
+		console.error(chalk.red(error.message || error));
 		logVerbose('Error stack:');
 		logVerbose(error.stack);
 	}
@@ -209,10 +209,10 @@ function setOptionDescription(option) {
 }
 
 function maxWidth(table) {
-	var width = 0
+	var width = 0;
 
 	table.forEach(function (v) {
-		width = Math.max(v.length, width)
+		width = Math.max(v.length, width);
 	});
 
 	return width;
@@ -234,7 +234,7 @@ function formatArgv(argv, commandFragments, command) {
 
 		if (params.length <= pos) {
 			if (isRequired) {
-				throw new Error('Missing required parameter: ' + argument.name);
+				throw new Error('Missing required parameter: ' + param.name);
 			}
 
 			params.push(null);
@@ -265,7 +265,7 @@ function formatArgv(argv, commandFragments, command) {
 		}
 
 		if ((demand && unnamedParams.length === 0) || demand > unnamedParams.length) {
-			var message = 'Missing required parameter';
+			var message = 'Missing required parameter(s)';
 			if (command.unnamedParams.name) {
 				message += ': ' + command.unnamedParams.name;
 			}

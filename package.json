@@ -33,7 +33,7 @@
     "string-width": "^1.0.1",
     "wordwrap": "^1.0.0",
     "yargonaut": "^1.1.2",
-    "yargs": "^3.31.0"
+    "yargs": "git+https://github.com/stelcheck/yargs.git#fixes/nested-command-order"
   },
   "bin": {
     "climaker": "./bin/climaker"
