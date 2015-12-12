@@ -1,7 +1,40 @@
-#!/usr/bin/env node
+#!/bin/sh
+(set -o igncr) 2>/dev/null && set -o igncr; # cygwin encoding fix
 
-var maker = require('climaker');
-var path = require('path');
-var packageInfo = require('../package.json');
+basedir=`dirname "${0}"`
 
-maker('%BINARY_NAME%', packageInfo.version, path.join(__dirname, '../commands/%BINARY_NAME%'));
+case `uname` in
+	*CYGWIN*)
+		basedir=`cygpath -w "${basedir}"`
+		;;
+esac
+
+if [ -f "${basedir}/%BINARY_NAME%-cli.js" ]
+then
+	node "${basedir}/%BINARY_NAME%-cli.js" ${@}
+	exit "${?}"
+fi
+
+NODE_EXE="${basedir}/node"
+if [ -x "${basedir}/node.exe" ]
+then
+	NODE_EXE="${basedir}/node.exe"
+elif ! [ -x "${NODE_EXE}" ]
+then
+	NODE_EXE=node
+fi
+
+CLI_JS="${basedir}/../lib/node_modules/%PROJECT_NAME%/bin/%BINARY_NAME%-cli.js"
+
+case `uname` in
+	*CYGWIN*)
+		PREFIX=`npm prefix -g`
+		PREFIX_CLI_JS="${PREFIX}/node_modules/%PROJECT_NAME%/bin/%BINARY_NAME%-cli.js"
+		if [ -f "${PREFIX_CLI_JS}" ]
+		then
+	  		CLI_JS="${PREFIX_CLI_JS}"
+		fi
+		;;
+esac
+
+"${NODE_EXE}" "${CLI_JS}" "${@}"

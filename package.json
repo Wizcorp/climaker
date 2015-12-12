@@ -36,6 +36,6 @@
     "yargs": "git+https://github.com/stelcheck/yargs.git#fixes/nested-command-order"
   },
   "bin": {
-    "climaker": "./bin/climaker"
+    "climaker": "./bin/climaker-cli.js"
   }
 }

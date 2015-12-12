@@ -11,19 +11,6 @@ consistent CLI UI tools in Node.js, with great speed.
 * Automated command-line parameters and argument validation
 * Localization support for help content, with default fallback to English
 
-## Todo
-
-- [ ] Documentation in Japanese, French, and other languages
-- [ ] Autocompletion script generation for Bash, ZSH and PowerShell
-- [ ] `autocomplete` attribute on options and parameters (specify a command
-      that should return autocompletion data)
-- [ ] Test suite
-- [ ] Specification document (for writing commands)
-- [ ] Health-check command: check that this project's binaries
-      and commands are complying with how things are
-	  supposed to be structured
-- [ ] Get feedback!
-
 ## How to use
 
 The following commands will help you get set up:
@@ -42,8 +29,8 @@ climaker command create new subCommand
 climaker binary create mySecondCommand
 
 # Add commands to the second binary
-climaker command create --binary mySecondCommand create newCommand
-climaker command create --binary mySecondCommand create new subCommand
+climaker command create -b mySecondCommand create newCommand
+climaker command create -b mySecondCommand create new subCommand
 ```
 
 ## Manually creating commands
@@ -138,6 +125,20 @@ mytool module create myModule --lang=csharp
 You would need to create the folder `./commands/module`,
 add a description for the module subcommand in `./commands/module/index.js`,
 and the nested command itself in `./commands/module/create.js`.
+
+## Todo
+
+- [ ] Windows testing
+- [ ] Documentation in Japanese, French, and other languages
+- [ ] Dictionary feature, to simplify localization of command output
+- [ ] Autocompletion script generation for Bash, ZSH and PowerShell
+- [ ] `autocomplete` attribute on options and parameters (specify a command
+      that should return autocompletion data)
+- [ ] Test suite
+- [ ] Health-check command: check that this project's binaries
+      and commands are complying with how things are
+	  supposed to be structured
+- [ ] Get feedback!
 
 ## License
 

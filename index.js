@@ -250,9 +250,12 @@ function formatArgv(argv, commandFragments, command) {
 
 	if (command.unnamedParams) {
 		var allow = command.unnamedParams.allow;
+		var allowedCount = typeof allow === 'boolean' ? unnamedParams.length : allow;
 		var demand = command.unnamedParams.demand;
+		var demandedCount = typeof demand === 'boolean' ? unnamedParams.length: demand;
 
-		if (unnamedParams.length > 0 && (allow === false || allow < unnamedParams.length)) {
+		console.log(allowedCount)
+		if (unnamedParams.length > 0 && (allow === false || allowedCount < unnamedParams.length)) {
 			if (allow !== false) {
 				unnamedParams.splice(0, allow);
 			}
@@ -264,7 +267,7 @@ function formatArgv(argv, commandFragments, command) {
 			throw new Error(message);
 		}
 
-		if ((demand && unnamedParams.length === 0) || demand > unnamedParams.length) {
+		if ((demand && unnamedParams.length === 0) || demandedCount > unnamedParams.length) {
 			var message = 'Missing required parameter(s)';
 			if (command.unnamedParams.name) {
 				message += ': ' + command.unnamedParams.name;
@@ -399,8 +402,6 @@ function load(commandFragments, commandPath, yargs) {
 
 					var lines = formatData.description.split('\n');
 
-					console.log(lines.length && (pos !== command.params.length - 1 || hasUnnamedParams));
-
 					if (pos !== command.params.length - 1 || hasUnnamedParams) {
 						description += '\n';
 					}
@@ -462,6 +463,20 @@ function load(commandFragments, commandPath, yargs) {
 };
 
 module.exports = function (name, version, path) {
+	/*global WScript*/
+	if (typeof WScript !== 'undefined') {
+		WScript.echo(
+			name + ' does not work when run\n' +
+			'with the Windows Scripting Host\n\n' +
+			"'cd' to a different directory,\n" +
+			"or type '" + name + ".cmd <args>',\n" +
+			"or type 'node " + name + " <args>'."
+		)
+		WScript.quit(1)
+		return
+	}
+
+	process.title = name;
 	yargs = yargs.version(version);
 	matchers.push(new Matcher(name));
 	load([name], path, yargs);

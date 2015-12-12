@@ -1,16 +1,22 @@
-exports.description = {
+exports.describe = {
 	// ja: '',
-	en: ''
+	en: '%DESCRIPTION%'
 };
 
 exports.unnamedParams = {
+	name: '',
+	describe: {
+		en: ''
+	},
 	allow: false,
-	demand: false,
-	name: ''
+	demand: false
 };
 
 exports.params = [{
 	name: 'name',
+	describe: {
+		en: ''
+	},
 	demand: true
 }];
 

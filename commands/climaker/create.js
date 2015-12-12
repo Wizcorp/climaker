@@ -21,25 +21,67 @@ exports.params = [{
 	}
 }];
 
-function onCompleted(error) {
+function rmdir(dir) {
+	var list = fs.readdirSync(dir);
+
+	for(var i = 0; i < list.length; i++) {
+		var filename = path.join(dir, list[i]);
+		var stat = fs.statSync(filename);
+
+		if(filename == "." || filename == "..") {
+			continue;
+		} else if(stat.isDirectory()) {
+			rmdir(filename);
+		} else {
+			fs.unlinkSync(filename);
+		}
+	}
+
+	fs.rmdirSync(dir);
+}
+
+var projectName;
+
+function onCompleted(error, callback, deleteFolder) {
+	deleteFolder = deleteFolder === undefined ? true : deleteFolder;
+
 	if (error) {
-		// Todo: cleanup?
+		deleteFolder && rmdir(projectName);
 		console.log(chalk.red.bold('✗'), 'Creation failed:', error.message || error);
 	} else {
-		console.log(chalk.green.bold('✔'), 'New project successfully created:', name);
+		console.log(chalk.green.bold('✔'), 'New project successfully created:', projectName);
 	}
 
 	callback(null, error ? 1 : 0);
 }
 
+function onInterrupt() {
+	process.chdir('..');
+	rmdir(projectName);
+	console.log(chalk.yellow.bold('✗'), 'Creation aborted')
+	process.exit(0);
+}
+
+process.on('SIGINT', onInterrupt);
+process.on('SIGTERM', onInterrupt);
+
+process.on('uncaughtException', function (error) {
+	process.chdir('..');
+	rmdir(projectName);
+	console.log(chalk.yellow.bold('✗'), 'Creation failed:', error.message || error);
+	process.exit(1);
+});
+
 exports.execute = function (options, name, callback) {
+
+	projectName = name;
+
 	try {
 		fs.mkdirSync(name);
-
 		process.chdir(name);
 		fs.mkdirSync('node_modules');
 	} catch (error) {
-		return onCompleted(error);
+		return onCompleted(error, callback, false);
 	}
 
 	async.series([
@@ -47,15 +89,13 @@ exports.execute = function (options, name, callback) {
 			npm.load({
 				loaded: false
 			}, callback);
-		},
-		function (callback) {
-			npm.on("log", function (message) {
+		}, function (callback) {
+			npm.on('log', function (message) {
 				console.log(message);
 			});
 
 			npm.commands.init([], callback);
-		},
-		function (callback) {
+		}, function (callback) {
 			npm.config.set('save', 'true');
 			var cliPackages = [];
 
@@ -66,17 +106,18 @@ exports.execute = function (options, name, callback) {
 			}
 
 			npm.commands.install(cliPackages, callback);
-		},
-		function (callback) {
-			// Read project name and description from package.json,
-			// add binary to package.json. Then, create the base command
-			fs.mkdirSync('bin');
-			maker.createBinary(name);
-			fs.mkdirSync('commands');
+		}, function (callback) {
+			var packageInfo = require('package.json');
+			var name = packageInfo.name;
+			var description = packageInfo.description;
 
-			var binaryCommandsPath = path.join('commands', name);
-			fs.mkdirSync(binaryCommandsPath);
-			maker.copy('subcommand-index.js', path.join(binaryCommandsPath, 'index.js'))
+			fs.mkdirSync('bin');
+			fs.mkdirSync('commands');
+			maker.createBinary(name, packageInfo.description);
+
+			callback();
 		}
-	], onCompleted);
+	], function (error) {
+		onCompleted(error, callback)
+	});
 };

@@ -1,4 +1,4 @@
-exports.description = {
-	en: '',
+exports.describe = {
+	en: '%DESCRIPTION%',
 	// ja: ''
 };
