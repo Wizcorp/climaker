@@ -254,7 +254,6 @@ function formatArgv(argv, commandFragments, command) {
 		var demand = command.unnamedParams.demand;
 		var demandedCount = typeof demand === 'boolean' ? unnamedParams.length: demand;
 
-		console.log(allowedCount)
 		if (unnamedParams.length > 0 && (allow === false || allowedCount < unnamedParams.length)) {
 			if (allow !== false) {
 				unnamedParams.splice(0, allow);
@@ -346,10 +345,13 @@ function load(commandFragments, commandPath, yargs) {
 				description += ' ' + effect(name);
 			});
 
+			var hasParams = command.params && command.params.length > 0;
+			var hasUnnamedParams = command.unnamedParams && command.unnamedParams.allow;
+
 			if (command.unnamedParams && command.unnamedParams.allow) {
 				var subDescription = ' [';
-				subDescription += command.unnamedParams.name || '';
-				subDescription += '...';
+				command.unnamedParams.name = (command.unnamedParams.name || '') + '...';
+				subDescription += command.unnamedParams.name;
 
 				if (typeof command.unnamedParams.demand === 'number') {
 					subDescription += ' min:' + command.unnamedParams.demand;
@@ -371,9 +373,6 @@ function load(commandFragments, commandPath, yargs) {
 			description += '\n\n';
 			description += getCommandOrParamDescription(command);
 
-			var hasParams = command.params && command.params.length > 0;
-			var hasUnnamedParams = command.unnamedParams && command.unnamedParams.allow;
-
 			var maxParamsWidth = 0;
 
 			if (hasParams || hasUnnamedParams) {
@@ -386,7 +385,7 @@ function load(commandFragments, commandPath, yargs) {
 				}
 
 				if (hasUnnamedParams) {
-					var name = command.unnamedParams.name;
+					var name = command.unnamedParams.name || '';
 					maxParamsWidth = Math.max(maxParamsWidth, name.length + 3);
 				}
 
@@ -410,8 +409,6 @@ function load(commandFragments, commandPath, yargs) {
 
 			if (hasUnnamedParams) {
 				var param = command.unnamedParams;
-				param.name += '...';
-
 				var formatData = formatParamInfo(param, param.demand, maxParamsWidth);
 				description += formatData.description;
 			}

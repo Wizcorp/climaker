@@ -13,7 +13,7 @@ exports.unnamedParams = {
 
 exports.params = [{
 	name: 'name',
-	demand: 'true'
+	demand: true
 }];
 
 exports.options = {

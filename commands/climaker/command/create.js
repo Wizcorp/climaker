@@ -58,6 +58,6 @@ exports.execute = function (options, callback) {
 		err = true
 		console.log(chalk.red.bold('✗'), 'Creation failed:', error.message || error);
 	} finally {
-		callback(err);
+		callback(null, err ? 1 : 0);
 	}
 };
