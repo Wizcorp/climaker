@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var maker = require('../index.js');
 var path = require('path');
 var packageInfo = require('../package.json');
