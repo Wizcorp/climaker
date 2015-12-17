@@ -16,7 +16,7 @@ consistent CLI UI tools in Node.js, with great speed.
 The following commands will help you get set up:
 
 ```bash
-npm install -i climaker
+npm install -g climaker
 
 # Create a project with a single binary
 climaker create myCommand
