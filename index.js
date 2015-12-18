@@ -11,7 +11,7 @@ var Matcher = require('did-you-mean');
 var matchers = [];
 
 // Same as defaultfor yargs
-var COLS_SIZE = Math.min(process.stdout.columns, 80);
+var COLS_SIZE = Math.min(process.stdout.columns || 80, 80);
 
 var running = false;
 
