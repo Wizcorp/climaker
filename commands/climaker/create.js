@@ -117,7 +117,7 @@ exports.execute = function (options, name, callback) {
 
 			npm.commands.install(cliPackages, callback);
 		}, function (callback) {
-			var packageInfo = require('package.json');
+			var packageInfo = require(path.join(process.cwd(), 'package.json'));
 			var name = packageInfo.name;
 			var description = packageInfo.description;
 

@@ -1,6 +1,7 @@
 var chalk = require('chalk');
 var maker = require('../../../lib/');
-var packageInfo = require('package.json');
+var path = require('path');
+var packageInfo = require(path.join(process.cwd(), 'package.json'));
 
 exports.describe = {
 	en: 'Add a command or subcommand to your project.',
