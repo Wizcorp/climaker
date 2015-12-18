@@ -73,6 +73,9 @@ process.on('uncaughtException', function (error) {
 });
 
 exports.execute = function (options, name, callback) {
+	if (name !== name.toLowerCase()) {
+		return onCompleted(new Error('Project name must be lower-case.'), callback, false);
+	}
 
 	projectName = name;
 
@@ -96,6 +99,13 @@ exports.execute = function (options, name, callback) {
 
 			npm.commands.init([], callback);
 		}, function (callback) {
+			// A bit of a hack: on SIGINT, NPM doesn't interrupt somehow
+			try {
+				fs.accessSync(path.join(process.cwd(), 'package.json'), fs.R_OK | fs.W_OK);
+			} catch (error) {
+				return onInterrupt();
+			}
+
 			npm.config.set('save', 'true');
 			var cliPackages = [];
 
