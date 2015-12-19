@@ -1,6 +1,6 @@
 {
   "name": "climaker",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Tool to create CLI interfaces.",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,7 @@
     "string-width": "^1.0.1",
     "wordwrap": "^1.0.0",
     "yargonaut": "^1.1.2",
-    "yargs": "git+https://github.com/stelcheck/yargs.git#fixes/nested-command-order"
+    "yargs": "https://github.com/stelcheck/yargs/archive/fixes/nested-command-order.tar.gz"
   },
   "bin": {
     "climaker": "./bin/climaker-cli.js"

@@ -288,7 +288,7 @@ function load(commandFragments, commandPath, yargs) {
 	var matcher = new Matcher();
 
 	files.forEach(function (file) {
-		if (file === 'index.js') {
+		if (file[0] === '.' || file === 'index.js') {
 			return;
 		}
 
